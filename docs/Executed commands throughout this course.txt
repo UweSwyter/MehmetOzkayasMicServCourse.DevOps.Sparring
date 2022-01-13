@@ -24,19 +24,19 @@ Basic docker commands:
         (I'M NOT SURE) -t => use this flag whenever you wish to push the image to some Docker container registry
 
     docker tag [the desired image id] [your docker registry repository name] => tags and associates the image with some repository in the container registry so you can push it
-     -> example: docker tag 818 cristianomartinsdiasspbr1982/mehmet_ozkaya_devops_course_shoppingapp
+     -> example: docker tag 818 [my docker login name]/mehmet_ozkaya_devops_course_shoppingapp
     NOTES: after you have run this command successfully, execute 'docker images' and check for the newly created tagged image
 
     docker push [your username on docker hub, for example]/[your repository on docker hub, for example]:[a tagname of your choice] => pushes images to the docker registry (hub.docker.com | azure container registry)
-     -> example: docker push cristianomartinsdiasspbr1982/mehmet_ozkaya_devops_course_shoppingapp:latest
+     -> example: docker push [my docker login name]/mehmet_ozkaya_devops_course_shoppingapp:latest
      NOTES:
        - requires login on hub.docker.com => docker login [ENTER]
        - the image you wish to send must have a tag!
        - after you have run this command successfully, check for you newly pushed repository online at:
-         https://hub.docker.com/repository/docker/cristianomartinsdiasspbr1982/mehmet_ozkaya_devops_course_shoppingapp/general
+         https://hub.docker.com/repository/docker/[my docker login name]/mehmet_ozkaya_devops_course_shoppingapp/general
 
     docker pull [repository name]:[tag name] => pulls/downloads an image from the informed repository
-     -> example: docker pull cristianomartinsdiasspbr1982/mehmet_ozkaya_devops_course_shoppingapp:latest
+     -> example: docker pull [my docker login name]/mehmet_ozkaya_devops_course_shoppingapp:latest
     NOTES:
        - the tag argument is optional
 
