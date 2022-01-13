@@ -1,0 +1,12 @@
+Kubernetes commands cheat sheet:
+https://kubernetes.io/docs/reference/kubectl/cheatsheet
+
+Kubernetes Web UI Dashboard
+https://github.com/kubernetes/dashboard
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+
+Azure portal
+https://portal.azure.com
+
+Azure CLI download page
+https://docs.microsoft.com/en-us/cli/azure/install-azure-cli

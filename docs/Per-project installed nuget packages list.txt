@@ -1,0 +1,5 @@
+Shopping.API project
+  -> Package name:
+       MongoDB.Driver
+  -> Executed command:
+       dotnet add package MongoDB.Driver
