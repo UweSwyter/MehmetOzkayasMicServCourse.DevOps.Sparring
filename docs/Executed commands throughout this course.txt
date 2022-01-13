@@ -157,60 +157,60 @@ Second: you must login to Azure. Just provide your Azure credentials
 HOW TO CREATE A AZURE KUBERNETES CLUSTER AND DEPLOY THE MICROSERVICES INTO IT
 
 1 - Create a Resource Group:
-az group create --name mehmetozkaya_devopscourse_resgroup --location brazilsouth
+az group create --name [myresgroup_name] --location brazilsouth
 
 2 - Create an Azure Container Registry:
-az acr create --resource-group mehmetozkaya_devopscourse_resgroup --name shoppingacr20220501 --sku Basic
+az acr create --resource-group [myresgroup_name] --name [acs_name] --sku Basic
 
 3 - Enable the administrator account for deploying containers in the Azure Container Registry (ACR)
-az acr update -n shoppingacr20220501 --admin-enabled true
+az acr update -n [acs_name] --admin-enabled true
 When this command was executed, I checked out the Azure Portal on the web -> Access Keys section
 and saw two created passwords:
-Login server: shoppingacr20220501.azurecr.io
-Username: shoppingacr20220501
-Password: vOV8u4QFcFR3bQeSKzokRzUVz/+1NoLY
-Password 2: Y5KAp8tomzhbVYZ4I+UxhkLW4rsy1TgK)
+Login server: [acs_name].azurecr.io
+Username: [user name]
+Password: [pass1]
+Password 2: [pass1]
 
 4 - Login to the Azure Container Registry (ACR)
-az acr login --name shoppingacr20220501
+az acr login --name [acs_name]
 
 5 - Retrieve AcrLoginServer information with the following command:
-az acr list --resource-group mehmetozkaya_devopscourse_resgroup --query "[].{acrLoginServer:loginServer}" --output table
+az acr list --resource-group [myresgroup_name] --query "[].{acrLoginServer:loginServer}" --output table
 
 6 - Tag the docker images, so they can be registered in the Azure Container Registry (ACR).
 Note that here you tag the container with the login server information, extracted from the step 5:
-docker tag shoppingapi:latest shoppingacr20220501.azurecr.io/shoppingapi:v1
-docker tag shoppingclient:latest shoppingacr20220501.azurecr.io/shoppingclient:v1
+docker tag shoppingapi:latest [acs_name].azurecr.io/shoppingapi:v1
+docker tag shoppingclient:latest [acs_name].azurecr.io/shoppingclient:v1
 6.1 Check to see if the images were tagged accordingly:
     docker images
 NOTES: And why v1 tag? You deliver continuously multiple versions of your containers! (v1,v2,vN...)
 
 7 - Push the containers to the Azure Container Registry
 Note that these pushed containers are not pushed to the Docker Hub!
-docker push shoppingacr20220501.azurecr.io/shoppingapi:v1
-docker push shoppingacr20220501.azurecr.io/shoppingclient:v1
+docker push [acs_name].azurecr.io/shoppingapi:v1
+docker push [acs_name].azurecr.io/shoppingclient:v1
 7.1 Check to see if the containers' repositories were successfully:
-    az acr repository list --name shoppingacr20220501 --output table
+    az acr repository list --name [acs_name] --output table
 7.2 Also, check the containers repositories tags:
-    az acr repository show-tags --name shoppingacr20220501 --repository shoppingapi --output table
-    az acr repository show-tags --name shoppingacr20220501 --repository shoppingclient --output table
+    az acr repository show-tags --name [acs_name] --repository shoppingapi --output table
+    az acr repository show-tags --name [acs_name] --repository shoppingclient --output table
 
 8 - Create a Azure Kubernetes Cluster
-az aks create --resource-group mehmetozkaya_devopscourse_resgroup --name ShoppingAksCluster --node-count 1 --generate-ssh-keys --attach-acr shoppingacr20220501
+az aks create --resource-group [myresgroup_name] --name [akscluster_name] --node-count 1 --generate-ssh-keys --attach-acr [acs_name]
 
 9 - Install Azure AKS CLI so you can run kucebtl commands on the cloud's kubernetes clusters
 az aks install-cli
 
 10 - Connect to AKS Cluster. But, first, we need to get Azure AKS credentials in order to connect to it.
-az aks get-credentials --resource-group mehmetozkaya_devopscourse_resgroup --name ShoppingAksCluster
-(after executing this command, I received the following message: Merged "ShoppingAksCluster" as current context in C:\Users\TheOwner\.kube\config)
-10.1 - To check you are in the 'ShoppingAksCluster' AKS cluster context, type the following commands:
+az aks get-credentials --resource-group [myresgroup_name] --name [akscluster_name]
+(after executing this command, I received the following message: Merged "[akscluster_name]" as current context in X:\Users\[The Owner]\.kube\config)
+10.1 - To check you are in the '[akscluster_name]' AKS cluster context, type the following commands:
        kubectl config current-context
        kubectl get nodes
 10.2 - You can check and, if necessary, switch the context by right-clicking in the docker icon tray
 
 11 - In order to AKS be able to pull the images from the ACR, create a ACR secret so it used by AKS to pull these images
-kubectl create secret docker-registry acr-secret --docker-server=shoppingacr20220501.azurecr.io --docker-username=shoppingacr20220501 --docker-password=vOV8u4QFcFR3bQeSKzokRzUVz/+1NoLY --docker-email=rblackm@hotmail.com
+kubectl create secret docker-registry acr-secret --docker-server=[acs_name].azurecr.io --docker-username=[user name] --docker-password=[pass1] --docker-email=[account_email]
 NOTES:
 --docker-server -> extracted from step 3
 --docker-username -> extracted from step 3
@@ -286,7 +286,7 @@ HOW TO DECLARATIVELY UPSCALE/DOWNSCALE THE PODS
 
 HOW TO CONFIGURE DECLARATIVELY AUTOSCALING IN AKS
 1. Check AKS version to make sure it is greater than 1.1. If so, it's ok for autoscaling feature
-   az aks show --resource-group mehmetozkaya_devopscourse_resgroup --name ShoppingAksCluster --query kubernetesVersion --output table
+   az aks show --resource-group [myresgroup_name] --name [akscluster_name] --query kubernetesVersion --output table
 
 2. Check the manifest yaml file called shoppingautoscaling.yaml then apply the manifests:
    kubectl apply -f ./aks/
@@ -315,6 +315,6 @@ HOW TO CLEAN UP AZURE RESOURCES
 2. Next, run: 
    kubectl get all
 3. Next, run:
-  az group delete --name mehmetozkaya_devopscourse_resgroup --yes --no-wait
+  az group delete --name [myresgroup_name] --yes --no-wait
 4. Lastly, but not least
   Navigate to the Azure Portal then exclude all remaining resources manually as well
