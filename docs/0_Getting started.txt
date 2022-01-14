@@ -1,0 +1,18 @@
+Git url: https://github.com/cristianomartinsdias82/MehmetOzkayasMicServCourse.DevOps.Sparring
+
+Follow the steps below everytime you want to practice what the course video lectures teach you
+
+IMPORTANT: Do NEVER change directly the master branch and do NEVER merge the branches it back to the master branch. The idea is to derive branches from the master then pratice all the razzle-dazzle stuffs you learnt from the "Deploying .Net Microservices with K8s, AKS and Azure DevOps" course in there, with no need to push them whatsoever.
+
+0. First things first
+   Run Docker locally
+   In prompt, spin up a mongodb container with the following command:
+     docker run -d --name mongo -p 27017:27017 mongo [ENTER]
+
+1. Create a new branch from the master branch. "attemptN/some-intuitive-name"
+2. You can push the newly created branch if you want
+3. Create dockerfiles for ShoppingApi and ShoppingClient projects
+4. Open Udemy.com, the navigate to the "Deploying .Net Microservices with K8s, AKS and Azure DevOps" course
+5. Start the training from the Section 6 of the course. If nothing has changed since the time it was written, the video number should be 34 "Introduction".
+
+Good luck!
