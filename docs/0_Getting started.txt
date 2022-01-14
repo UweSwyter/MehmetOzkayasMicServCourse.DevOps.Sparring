@@ -7,7 +7,7 @@ IMPORTANT: Do NEVER change directly the master branch and do NEVER merge the bra
 0. First things first
    Run Docker locally
    In prompt, spin up a mongodb container with the following command:
-     docker run -d --name mongo -p 27017:27017 mongo [ENTER]
+     docker run -d --name mongo -p 27017:27017 mongo
 
 1. Create a new branch from the master branch. "attemptN/some-intuitive-name"
 2. You can push the newly created branch if you want
